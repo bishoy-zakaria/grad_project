@@ -24,7 +24,7 @@ int main(void)
 	
 	/* ************************ SLAVES ********************** */
 	
-	DIO_SetPinDir(DIO_PORTA,DIO_PIN0,DIO_PIN_OUTPUT);
+	/*DIO_SetPinDir(DIO_PORTA,DIO_PIN0,DIO_PIN_OUTPUT);
 	DIO_SetPinDir(DIO_PORTA,DIO_PIN1,DIO_PIN_OUTPUT);
 	DIO_SetPinDir(DIO_PORTA,DIO_PIN2,DIO_PIN_OUTPUT);
 	DIO_SetPinDir(DIO_PORTA,DIO_PIN3,DIO_PIN_OUTPUT);
@@ -32,7 +32,7 @@ int main(void)
 	DIO_WritePin(DIO_PORTA,DIO_PIN0,DIO_PIN_HIGH );
 	DIO_WritePin(DIO_PORTA,DIO_PIN1,DIO_PIN_HIGH );
 	DIO_WritePin(DIO_PORTA,DIO_PIN2,DIO_PIN_HIGH );
-	DIO_WritePin(DIO_PORTA,DIO_PIN3,DIO_PIN_HIGH );
+	DIO_WritePin(DIO_PORTA,DIO_PIN3,DIO_PIN_HIGH );*/
 	
 	/* *********************** PASSWORD *********************** */
 	
@@ -50,7 +50,7 @@ int main(void)
     while (val==1) 
     {
 		
-		    DIO_WritePin(DIO_PORTB,DIO_PIN4,DIO_PIN_LOW );
+		    DIO_WritePin(DIO_PORTB,DIO_PIN4,DIO_PIN_LOW ); //SS
 		    SPI_Master_Init();
 		    SPI_Start();
 		    _delay_ms(1000);
@@ -62,12 +62,11 @@ int main(void)
 			data_UART = RX_Byte();
 			SPI_Send_Byte(data_UART);
 			_delay_ms(1000);
-			
-			
-		    while (1)
-		   {
+		    
 				data_SPI=SPI_Recieve_Byte();
 			    _delay_ms(1000);
+				LCD_Clear();
+		        LCD_WriteChar(data_UART);
 				if(data_SPI==1)    //ACK
 				{
 					LCD_Clear();
@@ -75,15 +74,23 @@ int main(void)
 					LCD_GoTo(1,0);
 					LCD_WriteString("LED_Close:C");
 					TX_String("LED_Open:O , LED_Close:C");
+					while(1)
+					{
 					data_UART = RX_Byte();
+					_delay_ms(250);
 					SPI_Send_Byte(data_UART);
 					_delay_ms(1000);
+					}
 					
-					data_SPI=SPI_Recieve_Byte();
-					_delay_ms(1000);
+					
+				}
+				else 
+				{
+					LCD_Clear();
+					LCD_WriteString("ERROR");
 				}
 			    
-		    }
+		    
 	    }
 	}
 

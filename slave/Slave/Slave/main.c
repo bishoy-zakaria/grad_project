@@ -19,17 +19,14 @@ int main(void)
 	_delay_ms(1000);
 	while (1)
 	{
-		data_1=SPI_Recieve_Byte();
+		data_1 = SPI_Recieve_Byte();
 		_delay_ms(1000);
 		while (data_1 == '1')
 		{
-			
 			SPI_Send_Byte(1);
 			_delay_ms(1000);
-			
 		    data_2=SPI_Recieve_Byte();
 			_delay_ms(1000);
-			
 			if (data_2 =='O')
 			{
 				
@@ -47,9 +44,9 @@ int main(void)
 			_delay_ms(1000);
 			data_2=SPI_Recieve_Byte();
 			_delay_ms(1000);
-			
 			if (data_2 =='O')
 			{
+				
 				DIO_WritePin(DIO_PORTC,DIO_PIN1,DIO_PIN_HIGH);
 			}
 			else if(data_2 =='C')
